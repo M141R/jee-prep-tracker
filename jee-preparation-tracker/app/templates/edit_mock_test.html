@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Mock Test{% endblock %}
+
+{% block content %}
+  <h1>Edit Mock Test</h1>
+  <form method="POST" action="{{ url_for('edit_mock_test', test_id=mock_test.id) }}">
+    {{ form.hidden_tag() }}
+    <div>
+      {{ form.name.label }}<br>
+      {{ form.name(size=32) }}
+    </div>
+    <div>
+      {{ form.date.label }}<br>
+      {{ form.date() }}
+    </div>
+    <div>
+      {{ form.score.label }}<br>
+      {{ form.score() }}
+    </div>
+    <div>
+      {{ form.total_marks.label }}<br>
+      {{ form.total_marks() }}
+    </div>
+    <div>
+      {{ form.submit() }}
+    </div>
+  </form>
+{% endblock %}

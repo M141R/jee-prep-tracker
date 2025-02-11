@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}Subjects - JEE Preparation Tracker{% endblock %}
+
+{% block content %}
+  <h1>Subjects</h1>
+  <ul>
+    {% for subject in subjects %}
+      <li>
+        <a href="{{ url_for('subject', subject_id=subject.id) }}">{{ subject.name }}</a>
+        - Coverage: {{ subject.coverage }}%
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock %}

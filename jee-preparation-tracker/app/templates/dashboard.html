@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - JEE Preparation Tracker{% endblock %}
+
+{% block content %}
+  <h1>Dashboard</h1>
+  <div class="subject-coverage">
+    <h2>Syllabus Coverage</h2>
+    <ul>
+      {% for subject in subjects %}
+        <li>{{ subject.name }}: {{ subject.coverage }}%</li>
+      {% endfor %}
+    </ul>
+  </div>
+  <div class="graph">
+    <h2>Mock Test Trend</h2>
+    <canvas id="mockTestTrend"></canvas>
+  </div>
+  <div class="additional">
+    <h2>Motivational Quote</h2>
+    <p>{{ quote or 'No quote available' }}</p>
+  </div>
+  <script>
+    var ctx = document.getElementById('mockTestTrend').getContext('2d');
+    var mockTestData = {
+      labels: [{% for test in mock_tests %}"{{ test.date }}",{% endfor %}],
+      datasets: [{
+        label: 'Mock Test Scores',
+        data: [{% for test in mock_tests %}{{ test.score }},{% endfor %}],
+        borderColor: 'rgba(75, 192, 192, 1)',
+        borderWidth: 1
+      }]
+    };
+    var chart = new Chart(ctx, {
+      type: 'line',
+      data: mockTestData,
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+  </script>
+{% endblock %}

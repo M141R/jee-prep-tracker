@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}Mock Tests - JEE Preparation Tracker{% endblock %}
+
+{% block content %}
+  <h1>Mock Tests</h1>
+  <a href="{{ url_for('add_mock_test') }}" class="button">Add Mock Test</a>
+  <div class="mock-tests">
+    <ul>
+      {% for test in tests %}
+        <li class="mock-test-item">
+          <span>{{ test.name }} - Date: {{ test.date }} - Score: {{ test.score }}/{{ test.total_marks }}</span>
+          <a href="{{ url_for('edit_mock_test', test_id=test.id) }}" class="button">Edit</a>
+          <form method="POST" action="{{ url_for('delete_mock_test', test_id=test.id) }}" class="delete-form">
+            <button type="submit" class="delete-button">−</button>
+          </form>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+{% endblock %}

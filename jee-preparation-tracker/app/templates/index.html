@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block title %}Home - JEE Preparation Tracker{% endblock %}
+
+{% block content %}
+  <h1>JEE Preparation Tracker</h1>
+  <ul>
+    {% for subject in subjects %}
+      <li>{{ subject.name }}: {{ subject.coverage }}%</li>
+    {% endfor %}
+  </ul>
+{% endblock %}

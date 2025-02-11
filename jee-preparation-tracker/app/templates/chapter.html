@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}{{ chapter.name }} - JEE Preparation Tracker{% endblock %}
+
+{% block content %}
+  <h1>{{ chapter.name }}</h1>
+  <p>Coverage: {{ chapter.coverage }}%</p>
+  <form method="POST">
+    <div>
+      <label for="status">Status:</label>
+      <select name="status" id="status">
+        <option value="Not Started" {% if chapter.status == 'Not Started' %}selected{% endif %}>Not Started</option>
+        <option value="Basic" {% if chapter.status == 'Basic' %}selected{% endif %}>Basic</option>
+        <option value="Intermediate" {% if chapter.status == 'Intermediate' %}selected{% endif %}>Intermediate</option>
+        <option value="Master" {% if chapter.status == 'Master' %}selected{% endif %}>Master</option>
+      </select>
+    </div>
+    <div>
+      <label for="prev_year_questions">Previous Year Questions Solved:</label>
+      <div id="prev_year_questions">
+        {% for year in range(2025, 2018, -1) %}
+          <label>
+            <input type="checkbox" name="prev_year_questions" value="{{ year }}" {% if year|string in chapter.prev_year_questions.split(',') %}checked{% endif %}>
+            {{ year }}
+          </label>
+        {% endfor %}
+      </div>
+    </div>
+    <div>
+      <label for="revisions">Revisions:</label>
+      <input type="number" name="revisions" id="revisions" value="{{ chapter.revisions }}">
+      <button type="button" class="increment" onclick="incrementRevisions()">+</button>
+    </div>
+    <button type="submit">Update</button>
+  </form>
+  <h2>Topics</h2>
+  <ul>
+    {% for topic in chapter.topics %}
+      <li>{{ topic.name }} - Status: {{ topic.status }}</li>
+    {% endfor %}
+  </ul>
+  <script>
+    function incrementRevisions() {
+      var revisionsInput = document.getElementById('revisions');
+      revisionsInput.value = parseInt(revisionsInput.value) + 1;
+    }
+  </script>
+{% endblock %}
