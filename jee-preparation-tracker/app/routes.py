@@ -1,8 +1,9 @@
 import requests
 from flask import render_template, request, redirect, url_for, flash
+from flask_login import current_user, login_user, logout_user, login_required
 from app import app, db
-from app.models import Subject, Chapter, Topic, MockTest
-from app.forms import MockTestForm
+from app.models import Subject, Chapter, Topic, MockTest, User
+from app.forms import MockTestForm, LoginForm, RegistrationForm
 from datetime import datetime
 
 @app.route('/')
@@ -11,6 +12,7 @@ def index():
     return render_template('index.html', subjects=subjects)
 
 @app.route('/dashboard')
+@login_required
 def dashboard():
     subjects = Subject.query.all()
     quote = get_motivational_quote()
@@ -18,6 +20,7 @@ def dashboard():
     return render_template('dashboard.html', subjects=subjects, quote=quote, mock_tests=mock_tests)
 
 @app.route('/subjects')
+@login_required
 def subjects():
     subjects = Subject.query.all()
     for subject in subjects:
@@ -31,6 +34,7 @@ def subject(subject_id):
     return render_template('subject.html', subject=subject)
 
 @app.route('/chapter/<int:chapter_id>', methods=['GET', 'POST'])
+@login_required
 def chapter(chapter_id):
     chapter = Chapter.query.get_or_404(chapter_id)
     if request.method == 'POST':
@@ -45,6 +49,7 @@ def chapter(chapter_id):
     return render_template('chapter.html', chapter=chapter)
 
 @app.route('/mock_tests')
+@login_required
 def mock_tests():
     tests = MockTest.query.all()
     return render_template('mock_tests.html', tests=tests)
@@ -90,3 +95,44 @@ def get_motivational_quote():
         data = response.json()
         return f'"{data["content"]}" - {data["author"]}'
     return "Keep pushing forward!"
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if current_user.is_authenticated:
+        return redirect(url_for('index'))
+    form = LoginForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(username=form.username.data).first()
+        if user is None or not user.check_password(form.password.data):
+            flash('Invalid username or password')
+            return redirect(url_for('login'))
+        login_user(user, remember=form.remember_me.data)
+        return redirect(url_for('index'))
+    return render_template('login.html', title='Sign In', form=form)
+
+@app.route('/logout')
+def logout():
+    logout_user()
+    return redirect(url_for('index'))
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    if current_user.is_authenticated:
+        return redirect(url_for('index'))
+    form = RegistrationForm()
+    if form.validate_on_submit():
+        user = User(username=form.username.data, email=form.email.data)
+        user.set_password(form.password.data)
+        db.session.add(user)
+        db.session.commit()
+        flash('Congratulations, you are now a registered user!')
+        return redirect(url_for('login'))
+    return render_template('register.html', title='Register', form=form)
+
+@app.route('/test_db')
+def test_db():
+    user = User(username='testuser', email='test@example.com')
+    user.set_password('password')
+    db.session.add(user)
+    db.session.commit()
+    return 'User added to the database!'

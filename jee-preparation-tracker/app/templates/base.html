@@ -40,6 +40,12 @@
         <a href="{{ url_for('dashboard') }}">Dashboard</a>
         <a href="{{ url_for('subjects') }}">Subjects</a>
         <a href="{{ url_for('mock_tests') }}">Mock Tests</a>
+        {% if current_user.is_authenticated %}
+          <a href="{{ url_for('logout') }}">Logout</a>
+        {% else %}
+          <a href="{{ url_for('login') }}">Login</a>
+          <a href="{{ url_for('register') }}">Register</a>
+        {% endif %}
       </div>
     </div>
     <div class="container">
