@@ -3,31 +3,31 @@
 {% block title %}Register{% endblock %}
 
 {% block content %}
-  <div class="form-container">
+  <div class="auth-form-container">
     <h1>Register</h1>
     <form method="POST" action="{{ url_for('register') }}">
       {{ form.hidden_tag() }}
-      <div>
-        {{ form.username.label(class="form-label") }}
-        {{ form.username(class="form-control") }}
+      <div class="auth-form-group">
+        {{ form.username.label(class="auth-form-label") }}
+        {{ form.username(class="auth-form-input") }}
       </div>
-      <div>
-        {{ form.email.label(class="form-label") }}
-        {{ form.email(class="form-control") }}
+      <div class="auth-form-group">
+        {{ form.email.label(class="auth-form-label") }}
+        {{ form.email(class="auth-form-input") }}
       </div>
-      <div>
-        {{ form.password.label(class="form-label") }}
-        {{ form.password(class="form-control") }}
+      <div class="auth-form-group">
+        {{ form.password.label(class="auth-form-label") }}
+        {{ form.password(class="auth-form-input") }}
       </div>
-      <div>
-        {{ form.password2.label(class="form-label") }}
-        {{ form.password2(class="form-control") }}
+      <div class="auth-form-group">
+        {{ form.password2.label(class="auth-form-label") }}
+        {{ form.password2(class="auth-form-input") }}
       </div>
-      <div>
-        {{ form.submit(class="btn btn-primary") }}
+      <div class="auth-form-group">
+        {{ form.submit(class="auth-btn") }}
       </div>
     </form>
-    <div class="form-footer">
+    <div class="auth-form-footer">
       <a href="{{ url_for('login') }}">Already have an account? Sign in here</a>
     </div>
   </div>

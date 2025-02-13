@@ -1,14 +1,60 @@
-/* Base styles */
+@import url('https://fonts.googleapis.com/css2?family=Monomaniac+One&display=swap');
+
+/* Reset CSS */
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {font-size: 16px;}
+
 body {
     font-family: 'Inter', sans-serif;
     background-color: #f8f9fa;
     color: #333;
-    margin: 0;
-    padding: 0;
+  font-weight: false;
+  line-height: 1.65;
 }
 
-h1, h2 {
-    color: #2c3e50;
+p {
+  font-size: 1em;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  font-weight: true;
+  line-height: 1.15;
+}
+
+h1,
+.text-size-h1 {
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 600;
+  margin-top: 0;
+  font-size: 3.05em;
+}
+
+h2,
+.text-size-h2 { font-size: 2.44em; }
+
+h3,
+.text-size-h3 { font-size: 1.95em; }
+
+h4,
+.text-size-h4 { font-size: 1.56em; }
+
+h5,
+.text-size-h5 { font-size: 1.25em; }
+
+.text-caption { font-size: 0.8em; }
+
+small,
+.text-small {
+  font-size: 0.64em;
 }
 
 a {
@@ -82,6 +128,27 @@ ul {
 li {
     margin: 5px 0;
 }
+
+.landing .heading{
+    font-family: Monomaniac One, serif;
+    text-align: center;
+    font-weight: 400;
+    font-size: 3em;
+}
+
+.heading_desc{
+    text-align: center;
+}
+
+.section_head{
+    border-left: 2px solid rgb(243 88 21 / 1);
+    padding-left: 16px;
+    text-indent: -2px;
+    font-weight: 300;
+    font-size: 1.95em;
+
+}
+
 
 .mock-test-item {
     display: flex;
@@ -224,6 +291,82 @@ button.increment {
 }
 
 .form-container .form-footer a:hover {
+    text-decoration: underline;
+}
+
+.auth-form-container {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.auth-form-container h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.auth-form-group {
+    margin-bottom: 15px;
+}
+
+.auth-form-label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.auth-form-input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.auth-form-check {
+    display: flex;
+    align-items: center;
+}
+
+.auth-form-check-input {
+    margin-right: 10px;
+}
+
+.auth-form-check-label {
+    margin: 0;
+}
+
+.auth-btn {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+.auth-btn:hover {
+    background-color: #0056b3;
+}
+
+.auth-form-footer {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.auth-form-footer a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.auth-form-footer a:hover {
     text-decoration: underline;
 }
 

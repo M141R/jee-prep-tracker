@@ -3,5 +3,49 @@
 {% block title %}Home - JEE Preparation Tracker{% endblock %}
 
 {% block content %}
-  <h1>JEE Preparation Tracker</h1>
+  <div class="container landing">
+    <h1 class="heading">Welcome to JEE Preparation Tracker</h1>
+    <p class="heading_desc">Your ultimate companion for JEE exam preparation.</p>
+
+    <section id="features">
+      <h2 class="section_head">Features</h2>
+      <pre>
+        ┌─────────────────────────────────────────────────────────┐
+        │░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░│
+        │░░░░░░░░░░░░░░░░░░░░░░Track Your Progress░░░░░░░░░░░░░░░░│
+        │░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░│
+        └─────────────────────────────────────────────────────────┘
+        Monitor your progress in various subjects and chapters to stay on top of your preparation.
+      </pre>
+      <pre>
+        ┌─────────────────────────────────────────────────────────┐
+        │░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░│
+        │░░░░░░░░░░░░░░░░░░░░░░░░░Mock Tests░░░░░░░░░░░░░░░░░░░░░░│
+        │░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░│
+        └─────────────────────────────────────────────────────────┘
+        Take mock tests to evaluate your knowledge and get detailed results to identify areas of improvement.
+      </pre>
+      <pre>
+        ┌─────────────────────────────────────────────────────────┐
+        │░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░│
+        │░░░░░░░░░░░░░░░░░░░░Motivation Quotes░░░░░░░░░░░░░░░░░░░░│
+        │░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░│
+        └─────────────────────────────────────────────────────────┘
+        Receive daily motivational quotes to keep you inspired and focused on your goals.
+      </pre>
+      <pre>
+        ┌─────────────────────────────────────────────────────────┐
+        │░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░│
+        │░░░░░░░░░░░░░░░░░░░░Personalized Dashboard░░░░░░░░░░░░░░░│
+        │░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░│
+        └─────────────────────────────────────────────────────────┘
+        Take mock tests to evaluate your knowledge and get detailed results to identify areas of improvement.
+      </pre>
+    </section>
+
+    <section id="call-to-action">
+      <p class="section_head">Get Started</p>
+      <p><a href="{{ url_for('register') }}" class="btn btn-primary">Sign Up</a> or <a href="{{ url_for('login') }}" class="btn btn-secondary">Log In</a></p>
+    </section>
+  </div>
 {% endblock %}

@@ -129,10 +129,10 @@ def register():
         return redirect(url_for('login'))
     return render_template('register.html', title='Register', form=form)
 
-@app.route('/test_db')
-def test_db():
-    user = User(username='testuser', email='test@example.com')
-    user.set_password('password')
-    db.session.add(user)
-    db.session.commit()
-    return 'User added to the database!'
+# @app.route('/test_db')
+# def test_db():
+#     user = User(username='testuser', email='test@example.com')
+#     user.set_password('password')
+#     db.session.add(user)
+#     db.session.commit()
+#     return 'User added to the database!'
