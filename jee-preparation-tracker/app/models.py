@@ -6,18 +6,27 @@ class Subject(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64), index=True, unique=True)
     chapters = db.relationship('Chapter', backref='subject', lazy='dynamic')
-    coverage = db.Column(db.Float, default=0.0)  # Coverage percentage
 
-    def calculate_coverage(self):
-        total_coverage = sum(chapter.coverage for chapter in self.chapters)
+    def calculate_user_coverage(self, user_id):
+        user_chapters = UserChapter.query.filter_by(user_id=user_id).all()
+        total_coverage = 0
         num_chapters = self.chapters.count()
-        self.coverage = total_coverage / num_chapters if num_chapters > 0 else 0
+        for chapter in self.chapters:
+            user_chapter = next((uc for uc in user_chapters if uc.chapter_id == chapter.id), None)
+            if user_chapter:
+                total_coverage += user_chapter.coverage
+        return round(total_coverage / num_chapters) if num_chapters > 0 else 0
 
 class Chapter(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64), index=True)
     subject_id = db.Column(db.Integer, db.ForeignKey('subject.id'))
     topics = db.relationship('Topic', backref='chapter', lazy='dynamic')
+
+class UserChapter(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    chapter_id = db.Column(db.Integer, db.ForeignKey('chapter.id'))
     coverage = db.Column(db.Float, default=0.0)  # Coverage percentage
     status = db.Column(db.String(64), default='Not Started')  # Status
     prev_year_questions = db.Column(db.String(64), default='')  # Years of previous year questions solved
@@ -33,7 +42,6 @@ class Chapter(db.Model):
         }
         prev_year_weight = 0.1  # Each year solved adds 10%
         revision_weight = 0.1  # Each revision adds 10%
-
         # Calculate coverage based on status
         coverage = status_weight.get(self.status, 0)
 
@@ -55,16 +63,24 @@ class Topic(db.Model):
 
 class MockTest(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(64), index=True, unique=True)
+    name = db.Column(db.String(64), index=True)
     date = db.Column(db.Date, nullable=False)
+
+class UserMockTest(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    mock_test_id = db.Column(db.Integer, db.ForeignKey('mock_test.id'))
     score = db.Column(db.Float, nullable=False)
     total_marks = db.Column(db.Float, nullable=False)
+    mock_test = db.relationship('MockTest', backref='user_mock_tests')
 
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), index=True, unique=True)
     email = db.Column(db.String(120), index=True, unique=True)
     password_hash = db.Column(db.String(500))
+    user_mock_tests = db.relationship('UserMockTest', backref='user', lazy='dynamic')
+    user_chapters = db.relationship('UserChapter', backref='user', lazy='dynamic')
 
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)

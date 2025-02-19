@@ -8,7 +8,7 @@
     {% for subject in subjects %}
       <li>
         <a href="{{ url_for('subject', subject_id=subject.id) }}">{{ subject.name }}</a>
-        - Coverage: {{ subject.coverage }}%
+        - Coverage: {{ user_coverages[subject.id] }}%
       </li>
     {% endfor %}
   </ul>

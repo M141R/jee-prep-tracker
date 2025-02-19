@@ -4,15 +4,15 @@
 
 {% block content %}
   <h1>{{ chapter.name }}</h1>
-  <p>Coverage: {{ chapter.coverage }}%</p>
+  <p>Coverage: {{ user_chapter.coverage }}%</p>
   <form method="POST">
     <div>
       <label for="status">Status:</label>
       <select name="status" id="status">
-        <option value="Not Started" {% if chapter.status == 'Not Started' %}selected{% endif %}>Not Started</option>
-        <option value="Basic" {% if chapter.status == 'Basic' %}selected{% endif %}>Basic</option>
-        <option value="Intermediate" {% if chapter.status == 'Intermediate' %}selected{% endif %}>Intermediate</option>
-        <option value="Master" {% if chapter.status == 'Master' %}selected{% endif %}>Master</option>
+        <option value="Not Started" {% if user_chapter.status == 'Not Started' %}selected{% endif %}>Not Started</option>
+        <option value="Basic" {% if user_chapter.status == 'Basic' %}selected{% endif %}>Basic</option>
+        <option value="Intermediate" {% if user_chapter.status == 'Intermediate' %}selected{% endif %}>Intermediate</option>
+        <option value="Master" {% if user_chapter.status == 'Master' %}selected{% endif %}>Master</option>
       </select>
     </div>
     <div>
@@ -20,7 +20,7 @@
       <div id="prev_year_questions">
         {% for year in range(2025, 2018, -1) %}
           <label>
-            <input type="checkbox" name="prev_year_questions" value="{{ year }}" {% if year|string in chapter.prev_year_questions.split(',') %}checked{% endif %}>
+            <input type="checkbox" name="prev_year_questions" value="{{ year }}" {% if year|string in user_chapter.prev_year_questions.split(',') %}checked{% endif %}>
             {{ year }}
           </label>
         {% endfor %}
@@ -28,7 +28,7 @@
     </div>
     <div>
       <label for="revisions">Revisions:</label>
-      <input type="number" name="revisions" id="revisions" value="{{ chapter.revisions }}">
+      <input type="number" name="revisions" id="revisions" value="{{ user_chapter.revisions }}">
       <button type="button" class="increment" onclick="incrementRevisions()">+</button>
     </div>
     <button type="submit">Update</button>

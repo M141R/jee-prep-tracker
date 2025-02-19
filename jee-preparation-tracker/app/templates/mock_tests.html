@@ -7,11 +7,11 @@
   <a href="{{ url_for('add_mock_test') }}" class="button">Add Mock Test</a>
   <div class="mock-tests">
     <ul>
-      {% for test in tests %}
+      {% for user_mock_test in user_mock_tests %}
         <li class="mock-test-item">
-          <span>{{ test.name }} - Date: {{ test.date }} - Score: {{ test.score }}/{{ test.total_marks }}</span>
-          <a href="{{ url_for('edit_mock_test', test_id=test.id) }}" class="button">Edit</a>
-          <form method="POST" action="{{ url_for('delete_mock_test', test_id=test.id) }}" class="delete-form">
+          <span>{{ user_mock_test.mock_test.name }} - Date: {{ user_mock_test.mock_test.date }} - Score: {{ user_mock_test.score }}/{{ user_mock_test.total_marks }}</span>
+          <a href="{{ url_for('edit_mock_test', user_mock_test_id=user_mock_test.id) }}" class="button">Edit</a>
+          <form method="POST" action="{{ url_for('delete_mock_test', user_mock_test_id=user_mock_test.id) }}" class="delete-form">
             <button type="submit" class="delete-button">−</button>
           </form>
         </li>

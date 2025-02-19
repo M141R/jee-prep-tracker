@@ -1,24 +1,26 @@
 @import url('https://fonts.googleapis.com/css2?family=Monomaniac+One&display=swap');
 
 /* Reset CSS */
-*{
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-html {font-size: 16px;}
+html {
+    font-size: 16px;
+}
 
 body {
     font-family: 'Inter', sans-serif;
     background-color: #f8f9fa;
     color: #333;
-  font-weight: false;
-  line-height: 1.65;
+    font-weight: false;
+    line-height: 1.65;
 }
 
 p {
-  font-size: 1em;
+    font-size: 1em;
 }
 
 h1,
@@ -26,35 +28,45 @@ h2,
 h3,
 h4,
 h5 {
-  font-weight: true;
-  line-height: 1.15;
+    font-weight: true;
+    line-height: 1.15;
 }
 
 h1,
 .text-size-h1 {
-  font-family: 'Open Sans', sans-serif;
-  font-weight: 600;
-  margin-top: 0;
-  font-size: 3.05em;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 600;
+    margin-top: 0;
+    font-size: 3.05em;
 }
 
 h2,
-.text-size-h2 { font-size: 2.44em; }
+.text-size-h2 {
+    font-size: 2.44em;
+}
 
 h3,
-.text-size-h3 { font-size: 1.95em; }
+.text-size-h3 {
+    font-size: 1.95em;
+}
 
 h4,
-.text-size-h4 { font-size: 1.56em; }
+.text-size-h4 {
+    font-size: 1.56em;
+}
 
 h5,
-.text-size-h5 { font-size: 1.25em; }
+.text-size-h5 {
+    font-size: 1.25em;
+}
 
-.text-caption { font-size: 0.8em; }
+.text-caption {
+    font-size: 0.8em;
+}
 
 small,
 .text-small {
-  font-size: 0.64em;
+    font-size: 0.64em;
 }
 
 a {
@@ -129,26 +141,46 @@ li {
     margin: 5px 0;
 }
 
-.landing .heading{
+.heading {
     font-family: Monomaniac One, serif;
     text-align: center;
     font-weight: 400;
     font-size: 3em;
 }
 
-.heading_desc{
+.heading_desc {
     text-align: center;
 }
 
-.section_head{
+.section_head {
     border-left: 2px solid rgb(243 88 21 / 1);
     padding-left: 16px;
     text-indent: -2px;
     font-weight: 300;
     font-size: 1.95em;
-
 }
 
+.feature-box-l {
+    margin: 20px 0;
+    padding: 20px;
+    background-color: #ecf0f1;
+    border-radius: 8px;
+    overflow-x: auto;
+    display: block;
+}
+
+.feature-box-s {
+    margin: 20px 0;
+    padding: 20px;
+    background-color: #ecf0f1;
+    border-radius: 8px;
+    display: none;
+}
+
+.feature-box-l pre {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
 
 .mock-test-item {
     display: flex;
@@ -430,5 +462,18 @@ button.increment {
     .mock-tests .button {
         padding: 5px 10px;
         font-size: 14px;
+    }
+
+    .feature-box-l{
+        display: none;
+    }
+
+    .feature-box-s{
+        display: block;
+    }
+
+    .feature-box-l pre {
+        white-space: pre-wrap;
+        word-wrap: break-word;
     }
 }

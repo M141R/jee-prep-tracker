@@ -3,27 +3,27 @@
 {% block title %}Edit Mock Test{% endblock %}
 
 {% block content %}
-  <h1>Edit Mock Test</h1>
-  <form method="POST" action="{{ url_for('edit_mock_test', test_id=mock_test.id) }}">
+<h1>Edit Mock Test</h1>
+<form method="POST" action="{{ url_for('edit_mock_test', user_mock_test_id=user_mock_test.id) }}">
     {{ form.hidden_tag() }}
     <div>
-      {{ form.name.label }}<br>
-      {{ form.name(size=32) }}
+        {{ form.name.label }}<br>
+        {{ form.name(value=user_mock_test.mock_test.name) }}
     </div>
     <div>
-      {{ form.date.label }}<br>
-      {{ form.date() }}
+        {{ form.date.label }}<br>
+        {{ form.date(value=user_mock_test.mock_test.date) }}
     </div>
     <div>
-      {{ form.score.label }}<br>
-      {{ form.score() }}
+        {{ form.score.label }}<br>
+        {{ form.score(value=user_mock_test.score) }}
     </div>
     <div>
-      {{ form.total_marks.label }}<br>
-      {{ form.total_marks() }}
+        {{ form.total_marks.label }}<br>
+        {{ form.total_marks(value=user_mock_test.total_marks) }}
     </div>
     <div>
-      {{ form.submit() }}
+        {{ form.submit() }}
     </div>
-  </form>
+</form>
 {% endblock %}

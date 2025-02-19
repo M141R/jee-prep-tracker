@@ -8,7 +8,7 @@
     {% for chapter in subject.chapters %}
       <li>
         <a href="{{ url_for('chapter', chapter_id=chapter.id) }}">{{ chapter.name }}</a>
-        - Coverage: {{ chapter.coverage }}%
+        - Coverage: {{ user_chapters[chapter.id].coverage if chapter.id in user_chapters else 'N/A' }}%
       </li>
     {% endfor %}
   </ul>

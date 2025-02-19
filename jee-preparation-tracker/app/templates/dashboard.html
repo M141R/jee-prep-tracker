@@ -1,3 +1,4 @@
+<!-- filepath: /workspaces/jee-prep-tracker/jee-preparation-tracker/app/templates/dashboard.html -->
 {% extends "base.html" %}
 
 {% block title %}Dashboard - JEE Preparation Tracker{% endblock %}
@@ -7,7 +8,7 @@
     <h2>Syllabus Coverage</h2>
     <ul>
       {% for subject in subjects %}
-        <li>{{ subject.name }}: {{ subject.coverage }}%</li>
+        <li>{{ subject.name }}: {{ user_coverages[subject.id] }}%</li>
       {% endfor %}
     </ul>
   </div>
@@ -22,12 +23,12 @@
   <script>
     var ctx = document.getElementById('mockTestTrend').getContext('2d');
     var mockTestData = {
-      labels: [{% for test in mock_tests %}"{{ test.date }}",{% endfor %}],
+      labels: [{% for user_mock_test in user_mock_tests %}"{{ user_mock_test.mock_test.date }}",{% endfor %}],
       datasets: [{
         label: 'Mock Test Scores',
-        data: [{% for test in mock_tests %}{{ test.score }},{% endfor %}],
+        data: [{% for user_mock_test in user_mock_tests %}{{ user_mock_test.score }},{% endfor %}],
         borderColor: 'rgba(75, 192, 192, 1)',
-        borderWidth: 1
+        borderWidth: 3
       }]
     };
     var chart = new Chart(ctx, {
