@@ -1,17 +1,19 @@
 import requests
 from flask import render_template, request, redirect, url_for, flash
 from flask_login import current_user, login_user, logout_user, login_required
-from app import app, db
+from app import app, db, cache, limiter
 from app.models import Subject, Chapter, Topic, MockTest, User, UserChapter, UserMockTest
 from app.forms import MockTestForm, LoginForm, RegistrationForm
 from datetime import datetime
 
 @app.route('/')
+@cache.cached(timeout=60)
 def index():
     subjects = Subject.query.all()
     return render_template('index.html', subjects=subjects)
 
 @app.route('/dashboard')
+@cache.cached(timeout=60)
 @login_required
 def dashboard():
     subjects = Subject.query.all()
@@ -19,9 +21,14 @@ def dashboard():
     user_chapters = UserChapter.query.filter_by(user_id=current_user.id).all()
     user_mock_tests = UserMockTest.query.filter_by(user_id=current_user.id).all()
     quote = get_motivational_quote()
-    return render_template('dashboard.html', subjects=subjects, user_chapters=user_chapters, quote=quote, user_mock_tests=user_mock_tests,user_coverages=user_coverages)
+
+    # Convert subjects to a JSON-serializable format
+    subjects_serializable = [{'id': subject.id, 'name': subject.name} for subject in subjects]
+
+    return render_template('dashboard.html', subjects=subjects_serializable, user_chapters=user_chapters, quote=quote, user_mock_tests=user_mock_tests,user_coverages=user_coverages)
 
 @app.route('/subjects')
+@cache.cached(timeout=60)
 @login_required
 def subjects():
     subjects = Subject.query.all()
@@ -118,6 +125,7 @@ def get_motivational_quote():
     return "Keep pushing forward!"
 
 @app.route('/login', methods=['GET', 'POST'])
+@limiter.limit("10 per minute")
 def login():
     if current_user.is_authenticated:
         return redirect(url_for('index'))
@@ -137,6 +145,7 @@ def logout():
     return redirect(url_for('index'))
 
 @app.route('/register', methods=['GET', 'POST'])
+@limiter.limit("10 per minute")
 def register():
     if current_user.is_authenticated:
         return redirect(url_for('index'))

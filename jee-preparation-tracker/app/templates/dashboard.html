@@ -1,46 +1,111 @@
-<!-- filepath: /workspaces/jee-prep-tracker/jee-preparation-tracker/app/templates/dashboard.html -->
-{% extends "base.html" %}
-
-{% block title %}Dashboard - JEE Preparation Tracker{% endblock %}
-
-{% block content %}
-  <div class="subject-coverage">
-    <h2>Syllabus Coverage</h2>
-    <ul>
-      {% for subject in subjects %}
-        <li>{{ subject.name }}: {{ user_coverages[subject.id] }}%</li>
-      {% endfor %}
-    </ul>
+{% extends "base.html" %} {% block title %}Dashboard - JEE Preparation Tracker{%
+endblock %} {% block content %}
+<div class="dashboard-grid">
+  <div class="grid-1">
+    <div class="syllabus-completion grid-card">
+      <h3>Syllabus Completion</h3>
+      <div class="syllabus">
+        <div class="subjects">
+          <ul>
+            {% for subject in subjects %}
+            <li>{{ subject.name }}: {{ user_coverages[subject.id] }}%</li>
+            {% endfor %}
+          </ul>
+        </div>
+        <canvas id="syllabusCompletionChart"></canvas>
+      </div>
+    </div>
+    <div class="extra grid-card">
+      <div class="countdown">
+        <p>Days Left</p>
+        <p id="countdown"></p>
+      </div>
+      <div class="motivation">
+        <blockquote>{{ quote or 'No quote available' }}</blockquote>
+      </div>
+    </div>
   </div>
-  <div class="graph">
+  <div class="mock-test-trend grid-card">
     <h2>Mock Test Trend</h2>
     <canvas id="mockTestTrend"></canvas>
   </div>
-  <div class="additional">
-    <h2>Motivational Quote</h2>
-    <p>{{ quote or 'No quote available' }}</p>
-  </div>
-  <script>
-    var ctx = document.getElementById('mockTestTrend').getContext('2d');
-    var mockTestData = {
-      labels: [{% for user_mock_test in user_mock_tests %}"{{ user_mock_test.mock_test.date }}",{% endfor %}],
-      datasets: [{
-        label: 'Mock Test Scores',
-        data: [{% for user_mock_test in user_mock_tests %}{{ user_mock_test.score }},{% endfor %}],
-        borderColor: 'rgba(75, 192, 192, 1)',
-        borderWidth: 3
-      }]
-    };
-    var chart = new Chart(ctx, {
-      type: 'line',
-      data: mockTestData,
-      options: {
-        scales: {
-          y: {
-            beginAtZero: true
-          }
+</div>
+<script>
+  // Countdown Timer
+  var countdownDate = new Date("Apr 1, 2025 00:00:00").getTime();
+  var countdownElement = document.getElementById("countdown");
+  var countdownInterval = setInterval(function() {
+    var now = new Date().getTime();
+    var distance = countdownDate - now;
+    var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    countdownElement.innerHTML = days;
+    if (distance < 0) {
+      clearInterval(countdownInterval);
+      countdownElement.innerHTML = "EXAM TIME!";
+    }
+  }, 1000);
+
+  // Syllabus Completion Chart
+  var subjects = {{ subjects | tojson }};
+  var userCoverages = {{ user_coverages | tojson }};
+  var totalSubjects = subjects.length;
+  var totalCompleted = 0;
+
+  subjects.forEach(function(subject) {
+    totalCompleted += userCoverages[subject.id];
+  });
+
+  var totalRemaining = (totalSubjects * 100) - totalCompleted;
+
+  var syllabusCtx = document.getElementById('syllabusCompletionChart').getContext('2d');
+  var syllabusData = {
+    labels: ['Completed', 'Remaining'],
+    datasets: [{
+      data: [totalCompleted, totalRemaining],
+      backgroundColor: ['#1abc9c', '#ecf0f1'],
+      borderColor: ['#16a085', '#bdc3c7'],
+      borderWidth: 1
+    }]
+  };
+  var syllabusChart = new Chart(syllabusCtx, {
+    type: 'pie',
+    data: syllabusData,
+    options: {
+      responsive: true,
+      plugins: {
+        legend: {
+          position: 'top',
+        },
+        title: {
+          display: true,
+          text: 'Syllabus Completion'
         }
       }
-    });
-  </script>
+    }
+  });
+
+
+  // Mock Test Trend Chart
+  var mockTestCtx = document.getElementById('mockTestTrend').getContext('2d');
+  var mockTestData = {
+    labels: [{% for user_mock_test in user_mock_tests %}"{{ user_mock_test.mock_test.date }}",{% endfor %}],
+    datasets: [{
+      label: 'Mock Test Scores',
+      data: [{% for user_mock_test in user_mock_tests %}{{ user_mock_test.score }},{% endfor %}],
+      borderColor: 'rgba(75, 192, 192, 1)',
+      borderWidth: 3
+    }]
+  };
+  var mockTestChart = new Chart(mockTestCtx, {
+    type: 'line',
+    data: mockTestData,
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+</script>
 {% endblock %}
