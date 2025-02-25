@@ -1,59 +1,75 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
     <title>{% block title %}JEE Preparation Tracker{% endblock %}</title>
-    <meta name="title" content="JEE Preparation Tracker">
-    <meta name="description" content="JEE Preparation Tracker is your ultimate companion for JEE exam preparation. Track your progress, take mock tests, and stay motivated.">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
-    <link rel="icon" href="{{ url_for('static', filename='icons/192.png') }}" type="image/png">
-    <meta name="theme-color" content="#2c3e50">
+    <meta name="title" content="JEE Preparation Tracker" />
+    <meta
+      name="description"
+      content="JEE Preparation Tracker is your ultimate companion for JEE exam preparation. Track your progress, take mock tests, and stay motivated."
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
+    <link
+      rel="manifest"
+      href="{{ url_for('static', filename='manifest.json') }}"
+    />
+    <link
+      rel="icon"
+      href="{{ url_for('static', filename='icons/192.png') }}"
+      type="image/png"
+    />
+    <meta name="theme-color" content="#2c3e50" />
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script>
-      if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('/static/service-worker.js')
-          .then(function(registration) {
-            console.log('ServiceWorker registration successful with scope: ', registration.scope);
-          }, function(error) {
-            console.log('ServiceWorker registration failed: ', error);
-          });
-      }
-      function toggleMenu() {
-        var menu = document.getElementById('navbar-menu');
-        if (menu.style.display === 'flex') {
-          menu.style.display = 'none';
-        } else {
-          menu.style.display = 'flex';
-        }
-      }
-    </script>
   </head>
   <body>
-    <div class="navbar">
-      <div class="logo">JEE Prep Tracker</div>
-      <div class="hamburger" onclick="toggleMenu()">
-        <div></div>
-        <div></div>
-        <div></div>
-      </div>
-      <div class="menu" id="navbar-menu">
-        <a href="{{ url_for('index') }}">Home</a>
-        <a href="{{ url_for('dashboard') }}">Dashboard</a>
-        <a href="{{ url_for('subjects') }}">Subjects</a>
-        <a href="{{ url_for('mock_tests') }}">Mock Tests</a>
+    <div class="sidebar">
+      <a href="/" class="logo-link"
+        ><img
+          src="{{ url_for('static', filename='icons/logo.svg') }}"
+          alt="Logo"
+          class="logo"
+      /></a>
+      <div class="menu">
+        <a href="{{ url_for('dashboard') }}">
+          <img
+            src="{{ url_for('static', filename='icons/dashboard.svg') }}"
+            alt="Dashboard Icon"
+            class="icon"
+          />
+          <p class="menu-item">Dashboard</p></a
+        >
+        <a href="{{ url_for('subjects') }}">
+          <img
+            src="{{ url_for('static', filename='icons/subjects.svg') }}"
+            alt="Subjects Icon"
+            class="icon"
+          />
+          <p class="menu-item">Subjects</p></a
+        >
+        <a href="{{ url_for('mock_tests') }}">
+          <img
+            src="{{ url_for('static', filename='icons/test.svg') }}"
+            alt="Mock Tests Icon"
+            class="icon"
+          />
+          <p class="menu-item">Mock Tests</p></a
+        >
         {% if current_user.is_authenticated %}
-          <a href="{{ url_for('logout') }}">Logout</a>
+        <a href="{{ url_for('logout') }}">Logout</a>
         {% else %}
-          <a href="{{ url_for('login') }}">Login</a>
-          <a href="{{ url_for('register') }}">Register</a>
+        <a href="{{ url_for('login') }}">Login</a>
+        <a href="{{ url_for('register') }}">Register</a>
         {% endif %}
       </div>
     </div>
-    <div class="container">
-      {% block content %}{% endblock %}
-    </div>
+    <div class="content">{% block content %}{% endblock %}</div>
     {% block scripts %}{% endblock %}
   </body>
 </html>

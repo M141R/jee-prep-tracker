@@ -1,15 +1,52 @@
-{% extends "base.html" %}
-
-{% block title %}Subjects - JEE Preparation Tracker{% endblock %}
-
-{% block content %}
-  <h1>Subjects</h1>
-  <ul>
-    {% for subject in subjects %}
-      <li>
-        <a href="{{ url_for('subject', subject_id=subject.id) }}">{{ subject.name }}</a>
-        - Coverage: {{ user_coverages[subject.id] }}%
-      </li>
-    {% endfor %}
-  </ul>
+{% extends "base.html" %} {% block title %}Subjects - JEE Preparation Tracker{%
+endblock %} {% block content %}
+<h1>Subjects</h1>
+<div class="subjects-grid">
+  {% for subject in subjects %}
+  <a href="{{ url_for('subject', subject_id=subject.id) }}">
+  <div class="subject-card">
+      <h2>{{ subject.name }}</h2>
+      <p>Coverage: {{ user_coverages[subject.id] }}%</p>
+      <canvas
+        id="coveragePieChart{{ subject.id }}"
+        width="200"
+        height="200"
+      ></canvas>
+    </div>
+  </a>
+  {% endfor %}
+</div>
+<script>
+  {% for subject in subjects %}
+    var ctx{{ subject.id }} = document.getElementById('coveragePieChart{{ subject.id }}').getContext('2d');
+    var completed{{ subject.id }} = {{ user_coverages[subject.id] }};
+    var remaining{{ subject.id }} = 100 - completed{{ subject.id }};
+    var data{{ subject.id }} = {
+      labels: ['Completed', 'Remaining'],
+      datasets: [{
+        data: [completed{{ subject.id }}, remaining{{ subject.id }}],
+        backgroundColor: ['#1abc9c', '#ecf0f1'],
+        borderColor: ['#16a085', '#bdc3c7'],
+        borderWidth: 1
+      }]
+    };
+    var options{{ subject.id }} = {
+      responsive: true,
+      plugins: {
+        legend: {
+          position: 'top',
+        },
+        title: {
+          display: true,
+          text: 'Coverage of {{ subject.name }}'
+        }
+      }
+    };
+    var coveragePieChart{{ subject.id }} = new Chart(ctx{{ subject.id }}, {
+      type: 'pie',
+      data: data{{ subject.id }},
+      options: options{{ subject.id }}
+    });
+  {% endfor %}
+</script>
 {% endblock %}

@@ -4,12 +4,20 @@
 
 {% block content %}
   <h1>{{ subject.name }}</h1>
-  <ul>
-    {% for chapter in subject.chapters %}
-      <li>
-        <a href="{{ url_for('chapter', chapter_id=chapter.id) }}">{{ chapter.name }}</a>
-        - Coverage: {{ user_chapters[chapter.id].coverage if chapter.id in user_chapters else 'N/A' }}%
-      </li>
-    {% endfor %}
-  </ul>
+  <table class="chapter-table">
+    <thead>
+      <tr>
+        <th>Chapter</th>
+        <th>Coverage</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for chapter in subject.chapters %}
+        <tr>
+          <td><a href="{{ url_for('chapter', chapter_id=chapter.id) }}">{{ chapter.name }}</a></td>
+          <td>{{ user_chapters[chapter.id].coverage if chapter.id in user_chapters else 'N/A' }}%</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
 {% endblock %}
